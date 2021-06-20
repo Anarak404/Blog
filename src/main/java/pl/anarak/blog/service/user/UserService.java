@@ -11,4 +11,6 @@ public interface UserService {
     Optional<User> login(String mail, String password);
 
     List<User> getAll();
+
+    Optional<User> getUser(Integer id);
 }
