@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.Column;
@@ -18,6 +19,7 @@ import java.util.List;
 @Entity(name = "role")
 @Data
 @NoArgsConstructor
+@RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Role {
 
