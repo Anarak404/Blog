@@ -6,7 +6,10 @@ import pl.anarak.blog.entity.Role;
 import pl.anarak.blog.entity.User;
 import pl.anarak.blog.repository.UserRepository;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -35,5 +38,12 @@ public class UserServiceImpl implements UserService {
             }
             return u;
         });
+    }
+
+    @Override
+    public List<User> getAll() {
+        return StreamSupport
+                .stream(userRepository.findAll().spliterator(), false)
+                .collect(Collectors.toList());
     }
 }

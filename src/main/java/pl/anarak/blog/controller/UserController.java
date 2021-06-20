@@ -2,6 +2,7 @@ package pl.anarak.blog.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,11 +11,14 @@ import org.springframework.web.server.ResponseStatusException;
 import pl.anarak.blog.dto.request.LoginRequest;
 import pl.anarak.blog.dto.request.RegisterRequest;
 import pl.anarak.blog.dto.response.AuthenticationResponse;
+import pl.anarak.blog.dto.response.UserRolesResponse;
 import pl.anarak.blog.entity.User;
 import pl.anarak.blog.model.UserModel;
 import pl.anarak.blog.service.user.UserService;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/user")
@@ -47,5 +51,12 @@ public class UserController {
                     HttpStatus.OK);
         }
         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Authentication failed!");
+    }
+
+    @GetMapping("/admin")
+    public ResponseEntity<UserRolesResponse> getUsersWithRoles() {
+        List<User> users = userService.getAll();
+        List<UserModel> response = users.stream().map(UserModel::new).collect(Collectors.toList());
+        return new ResponseEntity<>(new UserRolesResponse(response), HttpStatus.OK);
     }
 }
