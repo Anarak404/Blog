@@ -13,4 +13,8 @@ public interface UserService {
     List<User> getAll();
 
     Optional<User> getUser(Integer id);
+
+    Integer getCurrentUserId();
+
+    User getCurrentUser();
 }

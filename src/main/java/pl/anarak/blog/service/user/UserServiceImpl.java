@@ -1,5 +1,6 @@
 package pl.anarak.blog.service.user;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.anarak.blog.entity.Role;
@@ -50,5 +51,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> getUser(Integer id) {
         return userRepository.findById(id);
+    }
+
+    @Override
+    public Integer getCurrentUserId() {
+        return (Integer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
+
+    @Override
+    public User getCurrentUser() {
+        return getUser(getCurrentUserId())
+                .orElseThrow(() -> new RuntimeException("User not logged in!"));
     }
 }
