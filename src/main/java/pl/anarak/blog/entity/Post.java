@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,15 +15,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import java.util.List;
+import java.sql.Timestamp;
 
-@Entity(name = "app_user")
+@Entity(name = "post")
 @Data
 @NoArgsConstructor
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class User {
+public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,23 +30,22 @@ public class User {
 
     @Column(nullable = false)
     @NonNull
-    String name;
-
-    @Column(nullable = false, unique = true)
-    @NonNull
-    String mail;
+    String title;
 
     @Column(nullable = false)
     @NonNull
-    String password;
+    String content;
+
+    @CreationTimestamp
+    Timestamp creationDate;
+
+    Timestamp modificationDate;
 
     @ManyToOne
-    @JoinColumn(name = "role", nullable = false)
-    Role role;
+    @JoinColumn(name = "creator", nullable = false)
+    User creator;
 
-    @OneToMany(mappedBy = "creator")
-    List<Post> createdPosts;
-
-    @OneToMany(mappedBy = "lastModifier")
-    List<Post> modifiedPosts;
+    @ManyToOne
+    @JoinColumn(name = "lastModifier", nullable = false)
+    User lastModifier;
 }
