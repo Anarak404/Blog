@@ -13,6 +13,7 @@ import pl.anarak.blog.model.UserModel;
 import pl.anarak.blog.service.role.RoleService;
 import pl.anarak.blog.service.user.UserService;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
@@ -28,7 +29,7 @@ public class RoleController {
     }
 
     @PutMapping("")
-    public ResponseEntity<UserModel> changeRole(@RequestBody RoleRequest request) {
+    public ResponseEntity<UserModel> changeRole(@Valid @RequestBody RoleRequest request) {
         Optional<User> u = userService.getUser(request.getId());
         if (u.isPresent()) {
             roleService.changeUserRole(u.get(), request.getRole());

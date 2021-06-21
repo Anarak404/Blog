@@ -19,6 +19,7 @@ import pl.anarak.blog.model.PostModel;
 import pl.anarak.blog.service.post.PostService;
 import pl.anarak.blog.service.user.UserService;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,7 +46,7 @@ public class PostController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<PostModel> createPost(@RequestBody PostRequest request) {
+    public ResponseEntity<PostModel> createPost(@Valid @RequestBody PostRequest request) {
         User me = userService.getCurrentUser();
         Post post = postService.addPost(me, request.getTitle(), request.getContent());
         return new ResponseEntity<>(new PostModel(post), HttpStatus.CREATED);
@@ -58,7 +59,7 @@ public class PostController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<PostModel> updatePost(@RequestBody PostRequest request,
+    public ResponseEntity<PostModel> updatePost(@Valid @RequestBody PostRequest request,
                                                 @PathVariable Integer id) {
         User me = userService.getCurrentUser();
         Post post = postService.updatePost(me, id, request.getTitle(), request.getContent());

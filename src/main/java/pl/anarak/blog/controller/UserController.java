@@ -15,6 +15,7 @@ import pl.anarak.blog.entity.User;
 import pl.anarak.blog.model.UserModel;
 import pl.anarak.blog.service.user.UserService;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -30,7 +31,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) {
+    public ResponseEntity<AuthenticationResponse> register(@Valid @RequestBody RegisterRequest request) {
         try {
             User user = userService.register(request.getName(), request.getMail(),
                     request.getPassword());
@@ -44,7 +45,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<AuthenticationResponse> login(@Valid @RequestBody LoginRequest request) {
         Optional<User> user = userService.login(request.getMail(), request.getPassword());
         if (user.isPresent()) {
             return new ResponseEntity<>(new AuthenticationResponse(new UserModel(user.get())),
