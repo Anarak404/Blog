@@ -11,7 +11,6 @@ import org.springframework.web.server.ResponseStatusException;
 import pl.anarak.blog.dto.request.LoginRequest;
 import pl.anarak.blog.dto.request.RegisterRequest;
 import pl.anarak.blog.dto.response.AuthenticationResponse;
-import pl.anarak.blog.dto.response.UserRolesResponse;
 import pl.anarak.blog.entity.User;
 import pl.anarak.blog.model.UserModel;
 import pl.anarak.blog.service.user.UserService;
@@ -31,9 +30,10 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest data) {
+    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) {
         try {
-            User user = userService.register(data.getName(), data.getMail(), data.getPassword());
+            User user = userService.register(request.getName(), request.getMail(),
+                    request.getPassword());
 
             return new ResponseEntity<>(new AuthenticationResponse(new UserModel(user)),
                     HttpStatus.OK);
@@ -44,8 +44,8 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> login(@RequestBody LoginRequest data) {
-        Optional<User> user = userService.login(data.getMail(), data.getPassword());
+    public ResponseEntity<AuthenticationResponse> login(@RequestBody LoginRequest request) {
+        Optional<User> user = userService.login(request.getMail(), request.getPassword());
         if (user.isPresent()) {
             return new ResponseEntity<>(new AuthenticationResponse(new UserModel(user.get())),
                     HttpStatus.OK);
@@ -54,9 +54,12 @@ public class UserController {
     }
 
     @GetMapping("/admin")
-    public ResponseEntity<UserRolesResponse> getUsersWithRoles() {
+    public ResponseEntity<List<UserModel>> getUsersWithRoles() {
         List<User> users = userService.getAll();
-        List<UserModel> response = users.stream().map(UserModel::new).collect(Collectors.toList());
-        return new ResponseEntity<>(new UserRolesResponse(response), HttpStatus.OK);
+        List<UserModel> response = users.stream()
+                .map(UserModel::new)
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
