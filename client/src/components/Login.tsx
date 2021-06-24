@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import {
   Box,
   Button,
@@ -7,11 +7,15 @@ import {
   makeStyles,
   Paper,
   TextField,
+  Typography,
 } from '@material-ui/core';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { useRef } from 'react';
 import { useCallback } from 'react';
+import { isNotEmptyString } from './Register';
+import { IAuthenticaionResponse, ILoginRequest } from '../types';
+import { mainContext, url } from '../MainContext';
 
 const useStyles = makeStyles({
   inputContainer: {
@@ -54,9 +58,52 @@ export default function Login({ navigation }: IProps) {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
+  const { setLogin } = useContext(mainContext);
+
+  const [message, setMessage] = useState('');
+
   const login = useCallback(() => {
-    console.log('Ania');
-  }, []);
+    const email = emailRef.current?.value;
+    const password = passwordRef.current?.value;
+
+    if (!isNotEmptyString(email)) {
+      setMessage('Mail can not be empty!');
+      return;
+    }
+    if (!isNotEmptyString(password)) {
+      setMessage('Password can not be empty!');
+      return;
+    }
+
+    const data: ILoginRequest = {
+      mail: email as string,
+      password: password as string,
+    };
+
+    setMessage('');
+
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+
+    fetch(url + '/user/login', {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers,
+    })
+      .then(async (response) => {
+        if (response.ok) {
+          const responseData: IAuthenticaionResponse = await response.json();
+          setLogin({
+            ...responseData,
+            password: password as string,
+            email: email as string,
+          });
+          return;
+        }
+        setMessage('Authentication failed!');
+      })
+      .catch(() => setMessage('Error'));
+  }, [setMessage, setLogin]);
 
   return (
     <Container maxWidth="xs">
@@ -82,6 +129,9 @@ export default function Login({ navigation }: IProps) {
               inputRef={passwordRef}
             />
           </div>
+          {message.length > 0 && (
+            <Typography color="error">{message}</Typography>
+          )}
           <Button
             variant="contained"
             color="primary"

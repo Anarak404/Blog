@@ -52,7 +52,7 @@ interface IProps {
   navigation: () => void;
 }
 
-const isNotEmptyString = (text: string | undefined) => {
+export const isNotEmptyString = (text: string | undefined) => {
   return text && text.length > 0;
 };
 
