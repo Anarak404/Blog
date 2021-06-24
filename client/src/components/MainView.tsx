@@ -11,6 +11,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AddIcon from '@material-ui/icons/Add';
 import React from 'react';
 import PostItem from './PostItem';
+import PostList from './PostList';
 
 const useStyles = makeStyles({
   spacer: {
@@ -118,14 +119,7 @@ export default function MainView() {
         </Toolbar>
       </AppBar>
       <Container maxWidth="md" className={classes.container}>
-        {data.map((e) => (
-          <PostItem {...e} canModify={canModify} />
-        ))}
-        {canModify && (
-          <Fab color="primary" aria-label="add" className={classes.addButton}>
-            <AddIcon />
-          </Fab>
-        )}
+        <PostList data={data} canModify={canModify} />
       </Container>
     </>
   );
