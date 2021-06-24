@@ -38,12 +38,16 @@ const useStyles = makeStyles({
   formControl: {
     padding: '25px 0',
   },
-  loginButton: {
+  registerButton: {
     margin: '10px 0',
   },
 });
 
-export default function Register() {
+interface IProps {
+  navigation: () => void;
+}
+
+export default function Register({ navigation }: IProps) {
   const classes = useStyles();
   const usernameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
@@ -52,9 +56,6 @@ export default function Register() {
 
   const login = useCallback(() => {
     console.log('Ania');
-  }, []);
-  const register = useCallback(() => {
-    console.log('Arak');
   }, []);
 
   return (
@@ -99,12 +100,12 @@ export default function Register() {
             color="primary"
             endIcon={<ExitToAppIcon />}
             onClick={login}
-            className={classes.loginButton}
+            className={classes.registerButton}
           >
-            Login
-          </Button>
-          <Button variant="outlined" color="primary" onClick={register}>
             Register
+          </Button>
+          <Button variant="outlined" color="primary" onClick={navigation}>
+            Go back to login page
           </Button>
         </FormControl>
       </Paper>

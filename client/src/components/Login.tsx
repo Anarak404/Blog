@@ -24,7 +24,7 @@ const useStyles = makeStyles({
     marginRight: '7px',
   },
   container: {
-    padding: '5px 25px',
+    padding: '25px 25px',
   },
   image: {
     width: '150px',
@@ -45,16 +45,17 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Login() {
+interface IProps {
+  navigation: () => void;
+}
+
+export default function Login({ navigation }: IProps) {
   const classes = useStyles();
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
   const login = useCallback(() => {
     console.log('Ania');
-  }, []);
-  const register = useCallback(() => {
-    console.log('Arak');
   }, []);
 
   return (
@@ -90,7 +91,7 @@ export default function Login() {
           >
             Login
           </Button>
-          <Button variant="outlined" color="primary" onClick={register}>
+          <Button variant="outlined" color="primary" onClick={navigation}>
             Register
           </Button>
         </FormControl>
