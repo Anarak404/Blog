@@ -21,12 +21,16 @@ public class PostServiceImpl implements PostService {
         this.postRepository = postRepository;
     }
 
-
     @Override
     public List<Post> getPosts() {
         return StreamSupport
                 .stream(postRepository.findAll().spliterator(), false)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<Post> getPost(Integer id) {
+        return postRepository.findById(id);
     }
 
     @Override

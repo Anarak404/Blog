@@ -21,6 +21,7 @@ import pl.anarak.blog.service.user.UserService;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -43,6 +44,15 @@ public class PostController {
                 .collect(Collectors.toList());
 
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<PostModel> getPost(@PathVariable Integer id) {
+        Optional<Post> post = postService.getPost(id);
+        if (post.isPresent()) {
+            return new ResponseEntity<>(new PostModel(post.get()), HttpStatus.OK);
+        }
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Post does not exist!");
     }
 
     @PostMapping("/add")
