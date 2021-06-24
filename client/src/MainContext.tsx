@@ -2,11 +2,12 @@ import React from 'react';
 import { useCallback } from 'react';
 import { useState } from 'react';
 import { createContext } from 'react';
-import { ILogin } from './types';
+import { ILogin, Role } from './types';
 
 interface IMainContext {
   loggedIn: boolean;
   setLogin(loginData: ILogin): void;
+  role: Role;
 }
 
 interface IMainContextProps {
@@ -16,6 +17,7 @@ interface IMainContextProps {
 const defaultValue: IMainContext = {
   loggedIn: false,
   setLogin: (loginData: ILogin) => {},
+  role: 'USER',
 };
 
 export const mainContext = createContext<IMainContext>(defaultValue);
@@ -41,5 +43,9 @@ export default function MainContextProvider({ children }: IMainContextProps) {
     [setData, setLoggedIn]
   );
 
-  return <Provider value={{ loggedIn, setLogin }}>{children}</Provider>;
+  return (
+    <Provider value={{ loggedIn, setLogin, role: data.user.role }}>
+      {children}
+    </Provider>
+  );
 }

@@ -8,6 +8,8 @@ import {
 } from '@material-ui/core';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import React from 'react';
+import { useContext } from 'react';
+import { mainContext } from '../MainContext';
 import { IPost, IUser } from '../types';
 import PostEditor from './PostEditor';
 import PostList from './PostList';
@@ -108,9 +110,9 @@ const data: IPost[] = [
 
 export default function MainView() {
   const classes = useStyles();
-  const myRole = 'ADMIN';
+  const { role } = useContext(mainContext);
 
-  const canModify = ['ADMIN', 'MODERATOR'].includes(myRole);
+  const canModify = ['ADMIN', 'MODERATOR'].includes(role);
 
   return (
     <>
