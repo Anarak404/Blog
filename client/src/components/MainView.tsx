@@ -1,16 +1,13 @@
 import {
   AppBar,
   Container,
-  Fab,
   IconButton,
   makeStyles,
   Toolbar,
   Typography,
 } from '@material-ui/core';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import AddIcon from '@material-ui/icons/Add';
 import React from 'react';
-import PostItem from './PostItem';
 import PostList from './PostList';
 
 const useStyles = makeStyles({
@@ -25,7 +22,7 @@ const useStyles = makeStyles({
   },
   container: {
     marginTop: '100px',
-    marginBottom: '0px',
+    marginBottom: '50px',
   },
   addButton: {
     position: 'fixed',
