@@ -6,10 +6,15 @@ import {
   makeStyles,
   Paper,
   TextField,
+  Typography,
 } from '@material-ui/core';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import React, { useCallback, useRef } from 'react';
+import { useContext } from 'react';
+import { useState } from 'react';
+import { mainContext, url } from '../MainContext';
+import { IAuthenticaionResponse, IRegisterRequest } from '../types';
 
 const useStyles = makeStyles({
   inputContainer: {
@@ -47,6 +52,10 @@ interface IProps {
   navigation: () => void;
 }
 
+const isNotEmptyString = (text: string | undefined) => {
+  return text && text.length > 0;
+};
+
 export default function Register({ navigation }: IProps) {
   const classes = useStyles();
   const usernameRef = useRef<HTMLInputElement>(null);
@@ -54,9 +63,63 @@ export default function Register({ navigation }: IProps) {
   const passwordRef = useRef<HTMLInputElement>(null);
   const repeatPasswordRef = useRef<HTMLInputElement>(null);
 
+  const { setLogin } = useContext(mainContext);
+
+  const [message, setMessage] = useState('');
+
   const login = useCallback(() => {
-    console.log('Ania');
-  }, []);
+    const username = usernameRef.current?.value;
+    const email = emailRef.current?.value;
+    const password = passwordRef.current?.value;
+    const repeatPassword = repeatPasswordRef.current?.value;
+
+    if (!isNotEmptyString(username)) {
+      setMessage('Username can not be empty!');
+      return;
+    }
+    if (!isNotEmptyString(email)) {
+      setMessage('Mail can not be empty!');
+      return;
+    }
+    if (!isNotEmptyString(password)) {
+      setMessage('Password can not be empty!');
+      return;
+    }
+    if (password !== repeatPassword) {
+      setMessage('Passwords are not equals!');
+      return;
+    }
+
+    const data: IRegisterRequest = {
+      mail: email as string,
+      name: username as string,
+      password: password as string,
+    };
+
+    setMessage('');
+
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+
+    fetch(url + '/user/register', {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers,
+    })
+      .then(async (response) => {
+        if (response.ok) {
+          const responseData: IAuthenticaionResponse = await response.json();
+          setLogin({
+            ...responseData,
+            password: password as string,
+            email: email as string,
+          });
+          return;
+        }
+        setMessage('User with email already exist!');
+      })
+      .catch(() => setMessage('Error'));
+  }, [setMessage, setLogin]);
 
   return (
     <Container maxWidth="xs">
@@ -95,6 +158,9 @@ export default function Register({ navigation }: IProps) {
               inputRef={repeatPasswordRef}
             />
           </div>
+          {message.length > 0 && (
+            <Typography color="error">{message}</Typography>
+          )}
           <Button
             variant="contained"
             color="primary"

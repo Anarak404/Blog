@@ -29,3 +29,8 @@ export interface ILoginRequest {
 export interface IRegisterRequest extends ILoginRequest {
   name: string;
 }
+
+export interface ILogin extends IAuthenticaionResponse {
+  email: string;
+  password: string;
+}
