@@ -5,4 +5,6 @@ import pl.anarak.blog.model.Role;
 
 public interface RoleService {
     void changeUserRole(User user, Role role);
+
+    pl.anarak.blog.entity.Role getRole(Role role);
 }
