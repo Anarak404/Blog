@@ -1,7 +1,7 @@
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 import React from 'react';
-import Authentication from './components/Authentication';
-import MainView from './components/MainView';
+import AppView from './components/AppView';
+import MainContextProvider from './MainContext';
 
 const theme = createMuiTheme({
   palette: {
@@ -17,9 +17,9 @@ const theme = createMuiTheme({
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <div className="App">
-        <Authentication />
-      </div>
+      <MainContextProvider>
+        <AppView />
+      </MainContextProvider>
     </ThemeProvider>
   );
 }
