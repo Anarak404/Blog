@@ -12,6 +12,7 @@ import { IPost } from '../types';
 
 interface IProps {
   canModify: boolean;
+  showPost(): void;
 }
 
 const useStyles = makeStyles({
@@ -61,6 +62,7 @@ export default function PostItem({
   creator,
   modificationDate,
   canModify,
+  showPost
 }: IPost & IProps) {
   const classes = useStyles();
 
@@ -69,7 +71,7 @@ export default function PostItem({
 
   return (
     <Paper className={classes.container}>
-      <Box className={classes.postBox}>
+      <Box className={classes.postBox} onClick={showPost}>
         <Box className={classes.postBar}>
           <Box className={classes.titleBox}>
             <Typography variant="h5" classes={{ root: classes.title }}>

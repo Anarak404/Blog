@@ -7,6 +7,7 @@ import PostItem from './PostItem';
 interface IProps {
   canModify: boolean;
   data: IPost[];
+  showPost(id: number): void
 }
 
 const useStyles = makeStyles({
@@ -17,13 +18,13 @@ const useStyles = makeStyles({
   },
 });
 
-export default function PostList({ canModify, data }: IProps) {
+export default function PostList({ canModify, data, showPost }: IProps) {
   const classes = useStyles();
 
   return (
     <Box>
       {data.map((e) => (
-        <PostItem {...e} canModify={canModify} />
+        <PostItem {...e} canModify={canModify} showPost={() => showPost(e.id)} />
       ))}
       {canModify && (
         <Fab color="primary" aria-label="add" className={classes.addButton}>

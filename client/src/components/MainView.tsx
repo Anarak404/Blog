@@ -8,9 +8,12 @@ import {
 } from '@material-ui/core';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import React from 'react';
+import { useState } from 'react';
+import { useCallback } from 'react';
 import { useContext } from 'react';
 import { mainContext } from '../MainContext';
 import { IPost, IUser } from '../types';
+import Post from './Post';
 import PostEditor from './PostEditor';
 import PostList from './PostList';
 import TableRoles from './TableRoles';
@@ -108,11 +111,31 @@ const data: IPost[] = [
   },
 ];
 
+type Route = 'Post' | 'Roles' | 'Posts';
+
 export default function MainView() {
   const classes = useStyles();
   const { role } = useContext(mainContext);
+  const [id, setId] = useState(0);
+  const [route, setRoute] = useState<Route>('Posts');
 
   const canModify = ['ADMIN', 'MODERATOR'].includes(role);
+
+  const showPost = useCallback(
+    (id: number) => {
+      setId(id);
+      setRoute('Post');
+    },
+    [setId, setRoute]
+  );
+
+  const showPosts = useCallback(() => {
+    setRoute('Posts');
+  }, [setRoute]);
+
+  const showRoles = useCallback(() => {
+    setRoute('Roles');
+  }, [setRoute]);
 
   return (
     <>
@@ -121,10 +144,15 @@ export default function MainView() {
           <Typography
             variant="h5"
             className={[classes.margin, classes.cursor].join(' ')}
+            onClick={showPosts}
           >
             Home
           </Typography>
-          <Typography variant="h5" className={classes.cursor}>
+          <Typography
+            variant="h5"
+            className={classes.cursor}
+            onClick={showRoles}
+          >
             Role
           </Typography>
           <div className={classes.spacer} />
@@ -134,8 +162,11 @@ export default function MainView() {
         </Toolbar>
       </AppBar>
       <Container maxWidth="md" className={classes.container}>
-        <PostList data={data} canModify={canModify} />
-        <TableRoles users={userRoles} />
+        {route === 'Posts' && (
+          <PostList data={data} canModify={canModify} showPost={showPost} />
+        )}
+        {route === 'Post' && <Post id={id} />}
+        {route === 'Roles' && <TableRoles users={userRoles} />}
       </Container>
     </>
   );
