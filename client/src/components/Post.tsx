@@ -1,9 +1,12 @@
 import { Box, makeStyles, Paper, Typography } from '@material-ui/core';
-import React from 'react';
+import React, { useContext } from 'react';
+import { useEffect } from 'react';
+import { useState } from 'react';
+import { mainContext, url } from '../MainContext';
 import { IPost } from '../types';
 
 interface IProps {
-  data: IPost;
+  id: number;
 }
 
 const useStyles = makeStyles({
@@ -47,10 +50,26 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Post({ data }: IProps) {
+export default function Post({ id }: IProps) {
   const classes = useStyles();
+  const [data, setData] = useState<IPost>();
 
-  return (
+  const { getHeaders } = useContext(mainContext);
+
+  useEffect(() => {
+    const headers = getHeaders();
+    fetch(`${url}/post/${id}`, { method: 'GET', headers })
+      .then(async (response) => {
+        if (response.ok) {
+          const data: IPost = await response.json();
+          console.log(data);
+          setData(data);
+        }
+      })
+      .catch((e) => console.log('Error in get post', e));
+  }, [id, getHeaders]);
+
+  return data ? (
     <Paper className={classes.container} elevation={8}>
       <Box className={classes.postBar}>
         <Box className={classes.titleBox}>
@@ -68,5 +87,7 @@ export default function Post({ data }: IProps) {
         Author: {data.creator.name}, created at: {data.creationDate}
       </Box>
     </Paper>
+  ) : (
+    <div />
   );
 }

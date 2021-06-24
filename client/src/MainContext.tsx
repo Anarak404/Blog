@@ -8,6 +8,7 @@ interface IMainContext {
   loggedIn: boolean;
   setLogin(loginData: ILogin): void;
   role: Role;
+  getHeaders(auth?: boolean): Headers;
 }
 
 interface IMainContextProps {
@@ -18,6 +19,7 @@ const defaultValue: IMainContext = {
   loggedIn: false,
   setLogin: (loginData: ILogin) => {},
   role: 'USER',
+  getHeaders: (auth?: boolean) => new Headers(),
 };
 
 export const mainContext = createContext<IMainContext>(defaultValue);
@@ -43,8 +45,24 @@ export default function MainContextProvider({ children }: IMainContextProps) {
     [setData, setLoggedIn]
   );
 
+  const getHeaders = useCallback(
+    (auth: boolean = true) => {
+      console.log(auth);
+      const headers = new Headers();
+      headers.append('Content-Type', 'application/json');
+      if (auth) {
+        headers.append(
+          'Authorization',
+          `Basic ${btoa(`${data.email}:${data.password}`)}`
+        );
+      }
+      return headers;
+    },
+    [data]
+  );
+
   return (
-    <Provider value={{ loggedIn, setLogin, role: data.user.role }}>
+    <Provider value={{ loggedIn, setLogin, role: data.user.role, getHeaders }}>
       {children}
     </Provider>
   );
