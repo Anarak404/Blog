@@ -12,11 +12,6 @@ const theme = createMuiTheme({
       main: '#c8d5b9',
     },
   },
-  props: {
-    MuiSvgIcon: {
-      htmlColor: '#fff',
-    },
-  },
 });
 
 function App() {
