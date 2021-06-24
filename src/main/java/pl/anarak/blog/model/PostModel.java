@@ -7,6 +7,7 @@ import java.sql.Timestamp;
 
 @Value
 public class PostModel {
+    Integer id;
     String title;
     String content;
     UserModel creator;
@@ -15,6 +16,7 @@ public class PostModel {
     Timestamp modificationDate;
 
     public PostModel(Post post) {
+        this.id = post.getId();
         this.title = post.getTitle();
         this.content = post.getContent();
         this.creator = new UserModel(post.getCreator());
