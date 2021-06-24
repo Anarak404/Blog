@@ -8,7 +8,9 @@ import {
 } from '@material-ui/core';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import React from 'react';
+import PostEditor from './PostEditor';
 import PostList from './PostList';
+import TableRoles from './TableRoles';
 
 const useStyles = makeStyles({
   spacer: {
@@ -31,10 +33,12 @@ const useStyles = makeStyles({
   },
 });
 
-interface IUserModel {
+export interface IUserModel {
   name: string;
-  role: 'USER' | 'MODERATOR' | 'ADMIN';
+  role: Role;
 }
+
+export type Role = 'USER' | 'MODERATOR' | 'ADMIN'
 
 export interface IPost {
   id: number;
@@ -45,6 +49,29 @@ export interface IPost {
   creationDate: string;
   modificationDate: string;
 }
+
+const userRoles: IUserModel[] = [
+  {
+    name: 'name1',
+    role: 'ADMIN',
+  },
+  {
+    name: 'name2',
+    role: 'MODERATOR',
+  },
+  {
+    name: 'name3',
+    role: 'USER',
+  },
+  {
+    name: 'name4',
+    role: 'USER',
+  },
+  {
+    name: 'name5',
+    role: 'MODERATOR',
+  },
+];
 
 const data: IPost[] = [
   {
@@ -117,6 +144,7 @@ export default function MainView() {
       </AppBar>
       <Container maxWidth="md" className={classes.container}>
         <PostList data={data} canModify={canModify} />
+        <TableRoles users={userRoles}/>
       </Container>
     </>
   );
