@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "app_user")
@@ -45,8 +46,8 @@ public class User {
     Role role;
 
     @OneToMany(mappedBy = "creator")
-    List<Post> createdPosts;
+    List<Post> createdPosts = new ArrayList<>();
 
     @OneToMany(mappedBy = "lastModifier")
-    List<Post> modifiedPosts;
+    List<Post> modifiedPosts = new ArrayList<>();
 }
