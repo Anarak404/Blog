@@ -1,6 +1,7 @@
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 import React from 'react';
 import Authentication from './components/Authentication';
+import MainView from './components/MainView';
 
 const theme = createMuiTheme({
   palette: {
@@ -9,6 +10,11 @@ const theme = createMuiTheme({
     },
     secondary: {
       main: '#c8d5b9',
+    },
+  },
+  props: {
+    MuiSvgIcon: {
+      htmlColor: '#fff',
     },
   },
 });
