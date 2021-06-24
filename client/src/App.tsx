@@ -1,13 +1,25 @@
+import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 import React from 'react';
-import './App.css';
+import Authentication from './components/Authentication';
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#007200',
+    },
+    secondary: {
+      main: '#c8d5b9',
+    },
+  },
+});
 
 function App() {
-
   return (
-    <div className="App">
-      <header className="App-header">
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <div className="App">
+        <Authentication />
+      </div>
+    </ThemeProvider>
   );
 }
 
