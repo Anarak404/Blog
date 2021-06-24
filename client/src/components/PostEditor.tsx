@@ -10,7 +10,7 @@ import {
 import React, { useRef } from 'react';
 import { useCallback } from 'react';
 import { useState } from 'react';
-import { IPost } from './MainView';
+import { IPost } from '../types';
 
 interface IProps {
   post?: IPost;

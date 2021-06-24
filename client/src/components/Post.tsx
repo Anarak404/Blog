@@ -1,6 +1,6 @@
 import { Box, makeStyles, Paper, Typography } from '@material-ui/core';
 import React from 'react';
-import { IPost } from './MainView';
+import { IPost } from '../types';
 
 interface IProps {
   data: IPost;

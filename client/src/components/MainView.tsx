@@ -8,6 +8,7 @@ import {
 } from '@material-ui/core';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import React from 'react';
+import { IPost, IUser } from '../types';
 import PostEditor from './PostEditor';
 import PostList from './PostList';
 import TableRoles from './TableRoles';
@@ -33,41 +34,29 @@ const useStyles = makeStyles({
   },
 });
 
-export interface IUserModel {
-  name: string;
-  role: Role;
-}
-
-export type Role = 'USER' | 'MODERATOR' | 'ADMIN'
-
-export interface IPost {
-  id: number;
-  title: string;
-  content: string;
-  creator: IUserModel;
-  lastModifier: IUserModel;
-  creationDate: string;
-  modificationDate: string;
-}
-
-const userRoles: IUserModel[] = [
+const userRoles: IUser[] = [
   {
+    id: 1,
     name: 'name1',
     role: 'ADMIN',
   },
   {
+    id: 2,
     name: 'name2',
     role: 'MODERATOR',
   },
   {
+    id: 3,
     name: 'name3',
     role: 'USER',
   },
   {
+    id: 4,
     name: 'name4',
     role: 'USER',
   },
   {
+    id: 5,
     name: 'name5',
     role: 'MODERATOR',
   },
@@ -83,8 +72,8 @@ const data: IPost[] = [
       ),
     creationDate: '12.12.3031',
     modificationDate: '21.43.3211',
-    creator: { name: 'Imie 1', role: 'USER' },
-    lastModifier: { name: 'Imie 2', role: 'MODERATOR' },
+    creator: { id: 2, name: 'Imie 1', role: 'USER' },
+    lastModifier: { id: 7, name: 'Imie 2', role: 'MODERATOR' },
   },
   {
     id: 2,
@@ -93,8 +82,8 @@ const data: IPost[] = [
       'trescswetesxerxsrexjcerdsxjc trescswetesxerxsrexjcerdsxjctrescswetesxerxsrexjcerdsxjctrescswetesxerxsrexjcerdsxjc',
     creationDate: '12.12.3031',
     modificationDate: '21.43.3211',
-    creator: { name: 'Imie 3', role: 'ADMIN' },
-    lastModifier: { name: 'Imie 5', role: 'MODERATOR' },
+    creator: { id: 2, name: 'Imie 3', role: 'ADMIN' },
+    lastModifier: { id: 2, name: 'Imie 5', role: 'MODERATOR' },
   },
   {
     id: 3,
@@ -102,8 +91,8 @@ const data: IPost[] = [
     content: 'tresc 3 yugs vo ldns;a wv;a svm l knjlws avnd snvh lage rndvlk;',
     creationDate: '12.12.3031',
     modificationDate: '21.43.3211',
-    creator: { name: 'Imie 4', role: 'USER' },
-    lastModifier: { name: 'Imie 4', role: 'USER' },
+    creator: { id: 2, name: 'Imie 4', role: 'USER' },
+    lastModifier: { id: 2, name: 'Imie 4', role: 'USER' },
   },
   {
     id: 4,
@@ -112,8 +101,8 @@ const data: IPost[] = [
       'tresc 4 yug svo ld ns;awv; asvm  lknjlws avndls nvhla gewrndvl k;',
     creationDate: '12.12.3031',
     modificationDate: '21.43.3211',
-    creator: { name: 'Imie 4', role: 'USER' },
-    lastModifier: { name: 'Imie 4', role: 'USER' },
+    creator: { id: 2, name: 'Imie 4', role: 'USER' },
+    lastModifier: { id: 2, name: 'Imie 4', role: 'USER' },
   },
 ];
 
@@ -144,7 +133,7 @@ export default function MainView() {
       </AppBar>
       <Container maxWidth="md" className={classes.container}>
         <PostList data={data} canModify={canModify} />
-        <TableRoles users={userRoles}/>
+        <TableRoles users={userRoles} />
       </Container>
     </>
   );

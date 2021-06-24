@@ -6,9 +6,9 @@ import {
   Typography,
 } from '@material-ui/core';
 import React from 'react';
-import { IPost } from './MainView';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import { IPost } from '../types';
 
 interface IProps {
   canModify: boolean;

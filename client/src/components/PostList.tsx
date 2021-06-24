@@ -1,7 +1,7 @@
 import { Box, Fab, makeStyles } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import React from 'react';
-import { IPost } from './MainView';
+import { IPost } from '../types';
 import PostItem from './PostItem';
 
 interface IProps {

@@ -8,10 +8,10 @@ import {
   TableRow,
 } from '@material-ui/core';
 import React, { useCallback, useState } from 'react';
-import { IUserModel, Role } from './MainView';
+import { IUser, Role } from '../types';
 
 interface IProps {
-  user: IUserModel;
+  user: IUser;
 }
 
 const useStyles = makeStyles((theme) => ({

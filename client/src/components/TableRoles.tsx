@@ -9,11 +9,11 @@ import {
   TableRow,
 } from '@material-ui/core';
 import React from 'react';
-import { IUserModel } from './MainView';
+import { IUser } from '../types';
 import TableItem from './TableItem';
 
 interface IProps {
-  users: IUserModel[];
+  users: IUser[];
 }
 
 const useStyles = makeStyles((theme) => ({
