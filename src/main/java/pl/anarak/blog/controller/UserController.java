@@ -56,9 +56,11 @@ public class UserController {
 
     @GetMapping("/admin")
     public ResponseEntity<List<UserModel>> getUsersWithRoles() {
+        User me = userService.getCurrentUser();
         List<User> users = userService.getAll();
         List<UserModel> response = users.stream()
                 .map(UserModel::new)
+                .filter(u -> !u.getId().equals(me.getId()))
                 .collect(Collectors.toList());
 
         return new ResponseEntity<>(response, HttpStatus.OK);
