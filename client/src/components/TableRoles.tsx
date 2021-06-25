@@ -15,14 +15,10 @@ import TableItem from './TableItem';
 
 const useStyles = makeStyles((theme) => ({
   table: {
-    minWidth: '60vw',
+    maxWidth: '40vw',
   },
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 200,
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
+  tableHead: {
+    backgroundColor: theme.palette.primary.main,
   },
 }));
 
@@ -48,15 +44,15 @@ export default function TableRoles() {
   return (
     <TableContainer component={Paper} elevation={4} className={classes.table}>
       <Table>
-        <TableHead>
+        <TableHead className={classes.tableHead}>
           <TableRow>
-            <TableCell>Email</TableCell>
-            <TableCell>Role</TableCell>
+            <TableCell>Name</TableCell>
+            <TableCell align='right'>Role</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {users.map((e) => (
-            <TableItem user={e} />
+            <TableItem user={e} key={e.id} />
           ))}
         </TableBody>
       </Table>

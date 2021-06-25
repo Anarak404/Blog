@@ -65,7 +65,7 @@ export default function TableItem({ user }: IProps) {
   return (
     <TableRow>
       <TableCell>{user.name}</TableCell>
-      <TableCell>
+      <TableCell align='right'>
         <FormControl variant="outlined" className={classes.formControl}>
           <InputLabel>{role}</InputLabel>
           <Select value={role} onChange={handleChange} label={role}>
