@@ -37,6 +37,8 @@ public class PostServiceImpl implements PostService {
     public Post addPost(User user, String title, String content) {
         Post post = new Post(title, content);
         post.setCreator(user);
+        post.setLastModifier(user);
+        post.setModificationDate(Timestamp.valueOf(LocalDateTime.now()));
         return postRepository.save(post);
     }
 
