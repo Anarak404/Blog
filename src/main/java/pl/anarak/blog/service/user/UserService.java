@@ -14,7 +14,5 @@ public interface UserService {
 
     Optional<User> getUser(Integer id);
 
-    Integer getCurrentUserId();
-
     User getCurrentUser();
 }

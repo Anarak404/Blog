@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import pl.anarak.blog.entity.User;
 import pl.anarak.blog.model.Role;
 import pl.anarak.blog.repository.UserRepository;
+import pl.anarak.blog.security.UserDetailsImpl;
 import pl.anarak.blog.service.role.RoleService;
 
 import java.util.List;
@@ -58,13 +59,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Integer getCurrentUserId() {
-        return (Integer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    }
-
-    @Override
     public User getCurrentUser() {
-        return getUser(getCurrentUserId())
-                .orElseThrow(() -> new RuntimeException("User not logged in!"));
+        return ((UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
     }
 }
