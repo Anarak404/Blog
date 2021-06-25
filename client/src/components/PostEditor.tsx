@@ -95,9 +95,8 @@ export default function PostEditor({ post }: IProps) {
         headers,
         body: JSON.stringify(data),
       })
-        .then(async (response) => {
+        .then((response) => {
           if (response.ok) {
-            const responseData: IPost = await response.json();
             refreshPosts();
           }
         })
@@ -107,9 +106,8 @@ export default function PostEditor({ post }: IProps) {
         method: 'PUT',
         headers,
         body: JSON.stringify(data),
-      }).then(async (response) => {
+      }).then((response) => {
         if (response.ok) {
-          const responseData: IPost = await response.json();
           refreshPosts();
         }
       });
