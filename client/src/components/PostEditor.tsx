@@ -49,7 +49,23 @@ export default function PostEditor({ post }: IProps) {
   const inEditMode = post !== undefined;
 
   const [open, setOpen] = useState(true);
+  const [title, setTitle] = useState(post?.title);
+  const [content, setcontent] = useState(post?.content);
   const { getHeaders, refreshPosts } = useContext(mainContext);
+
+  const onTitleChange = useCallback(
+    (s: React.ChangeEvent<HTMLInputElement>) => {
+      setTitle(s.target.value);
+    },
+    [setTitle]
+  );
+
+  const onContentChange = useCallback(
+    (s: React.ChangeEvent<HTMLInputElement>) => {
+      setcontent(s.target.value);
+    },
+    [setcontent]
+  );
 
   const handleClose = useCallback(() => {
     setOpen((s) => !s);
@@ -107,7 +123,12 @@ export default function PostEditor({ post }: IProps) {
         <Typography variant="h5" className={classes.typography}>
           Title
         </Typography>
-        <TextField variant="outlined" inputRef={titleRef} />
+        <TextField
+          variant="outlined"
+          inputRef={titleRef}
+          value={title}
+          onChange={onTitleChange}
+        />
         <Typography variant="h5" className={classes.typography}>
           Content
         </Typography>
@@ -116,6 +137,8 @@ export default function PostEditor({ post }: IProps) {
           multiline
           rows="15"
           inputRef={contentRef}
+          value={content}
+          onChange={onContentChange}
         />
         <Box className={classes.box}>
           <Button variant="outlined" color="primary" onClick={handleClose}>
