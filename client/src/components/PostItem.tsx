@@ -67,7 +67,7 @@ export default function PostItem({ canModify, post, showPost }: IProps) {
   const words = content.split(' ');
 
   const [open, setOpen] = useState(false);
-  const { getHeaders } = useContext(mainContext);
+  const { getHeaders, refreshPosts } = useContext(mainContext);
 
   const handleClick = useCallback(() => {
     setOpen((s) => !s);
@@ -80,10 +80,11 @@ export default function PostItem({ canModify, post, showPost }: IProps) {
       async (response) => {
         if (response.ok) {
           const result: boolean = await response.json();
+          refreshPosts();
         }
       }
     );
-  }, [getHeaders, post]);
+  }, [getHeaders, post, refreshPosts]);
 
   return (
     <Paper className={classes.container}>
