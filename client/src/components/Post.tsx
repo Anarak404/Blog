@@ -2,6 +2,7 @@ import { Box, makeStyles, Paper, Typography } from '@material-ui/core';
 import React, { useContext } from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { dateFormatter } from '../DateFormatter';
 import { mainContext, url } from '../MainContext';
 import { IPost } from '../types';
 
@@ -79,12 +80,14 @@ export default function Post({ id }: IProps) {
         </Box>
         <Box className={[classes.postDetails, classes.alignRight].join(' ')}>
           <div>Modified by: {data.lastModifier.name}</div>
-          <div>Last modification date: {data.modificationDate}</div>
+          <div>
+            Last modification date: {dateFormatter(data.modificationDate)}
+          </div>
         </Box>
       </Box>
       <Box className={classes.contentBox}>{data.content}</Box>
       <Box className={[classes.postDetails, classes.postFooter].join(' ')}>
-        Author: {data.creator.name}, created at: {data.creationDate}
+        Author: {data.creator.name}, created at: {dateFormatter(data.creationDate)}
       </Box>
     </Paper>
   ) : (

@@ -11,6 +11,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import { IPost } from '../types';
 import PostEditor from './PostEditor';
 import { mainContext, url } from '../MainContext';
+import { dateFormatter } from '../DateFormatter';
 
 interface IProps {
   canModify: boolean;
@@ -97,7 +98,7 @@ export default function PostItem({ canModify, post, showPost }: IProps) {
           </Box>
           <Box className={classes.postDetails}>
             <div>Created by: {creator.name}</div>
-            <div>Last modified in: {modificationDate}</div>
+            <div>Last modified at: {dateFormatter(modificationDate)}</div>
           </Box>
         </Box>
         <Box className={classes.contentBox}>
