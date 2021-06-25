@@ -41,7 +41,7 @@ type Route = 'Post' | 'Roles' | 'Posts';
 
 export default function MainView() {
   const classes = useStyles();
-  const { role, posts } = useContext(mainContext);
+  const { role, posts, logout } = useContext(mainContext);
 
   const [id, setId] = useState(0);
   const [route, setRoute] = useState<Route>('Posts');
@@ -86,7 +86,7 @@ export default function MainView() {
             </Typography>
           )}
           <div className={classes.spacer} />
-          <IconButton>
+          <IconButton onClick={logout}>
             <ExitToAppIcon fontSize="large" />
           </IconButton>
         </Toolbar>

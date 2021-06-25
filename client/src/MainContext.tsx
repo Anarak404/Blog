@@ -11,6 +11,7 @@ interface IMainContext {
   getHeaders(auth?: boolean): Headers;
   posts: IPost[];
   refreshPosts(): void;
+  logout(): void;
 }
 
 interface IMainContextProps {
@@ -24,6 +25,7 @@ const defaultValue: IMainContext = {
   getHeaders: (auth?: boolean) => new Headers(),
   posts: [],
   refreshPosts: () => {},
+  logout: () => {},
 };
 
 export const mainContext = createContext<IMainContext>(defaultValue);
@@ -82,6 +84,10 @@ export default function MainContextProvider({ children }: IMainContextProps) {
     );
   }, [setData, getHeaders]);
 
+  const logout = useCallback(() => {
+    setLoggedIn((s) => !s);
+  }, [setLoggedIn]);
+
   return (
     <Provider
       value={{
@@ -91,6 +97,7 @@ export default function MainContextProvider({ children }: IMainContextProps) {
         getHeaders,
         posts: data.posts,
         refreshPosts,
+        logout,
       }}
     >
       {children}
