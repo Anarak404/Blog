@@ -2,13 +2,14 @@ import React from 'react';
 import { useCallback } from 'react';
 import { useState } from 'react';
 import { createContext } from 'react';
-import { ILogin, Role } from './types';
+import { ILogin, IPost, Role } from './types';
 
 interface IMainContext {
   loggedIn: boolean;
   setLogin(loginData: ILogin): void;
   role: Role;
   getHeaders(auth?: boolean): Headers;
+  posts: IPost[];
 }
 
 interface IMainContextProps {
@@ -20,6 +21,7 @@ const defaultValue: IMainContext = {
   setLogin: (loginData: ILogin) => {},
   role: 'USER',
   getHeaders: (auth?: boolean) => new Headers(),
+  posts: [],
 };
 
 export const mainContext = createContext<IMainContext>(defaultValue);
@@ -62,7 +64,15 @@ export default function MainContextProvider({ children }: IMainContextProps) {
   );
 
   return (
-    <Provider value={{ loggedIn, setLogin, role: data.user.role, getHeaders }}>
+    <Provider
+      value={{
+        loggedIn,
+        setLogin,
+        role: data.user.role,
+        getHeaders,
+        posts: data.posts,
+      }}
+    >
       {children}
     </Provider>
   );

@@ -5,14 +5,16 @@ import {
   Paper,
   Typography,
 } from '@material-ui/core';
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import { IPost } from '../types';
+import PostEditor from './PostEditor';
 
 interface IProps {
   canModify: boolean;
   showPost(): void;
+  post: IPost;
 }
 
 const useStyles = makeStyles({
@@ -56,18 +58,18 @@ const useStyles = makeStyles({
   },
 });
 
-export default function PostItem({
-  title,
-  content,
-  creator,
-  modificationDate,
-  canModify,
-  showPost
-}: IPost & IProps) {
+export default function PostItem({ canModify, post, showPost }: IProps) {
   const classes = useStyles();
+  const { title, content, creator, modificationDate } = post;
 
   const maxWordsCount = 100;
   const words = content.split(' ');
+
+  const [open, setOpen] = useState(false);
+
+  const handleClick = useCallback(() => {
+    setOpen((s) => !s);
+  }, [setOpen]);
 
   return (
     <Paper className={classes.container}>
@@ -91,7 +93,7 @@ export default function PostItem({
       </Box>
       {canModify && (
         <Box className={classes.controlBox}>
-          <IconButton>
+          <IconButton onClick={handleClick}>
             <EditIcon />
           </IconButton>
           <IconButton>
@@ -99,6 +101,7 @@ export default function PostItem({
           </IconButton>
         </Box>
       )}
+      {open && <PostEditor post={post} />}
     </Paper>
   );
 }

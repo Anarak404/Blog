@@ -34,9 +34,10 @@ export default function PostList({ canModify, data, showPost }: IProps) {
     <Box>
       {data.map((e) => (
         <PostItem
-          {...e}
+          post={e}
           canModify={canModify}
           showPost={() => showPost(e.id)}
+          key={e.id}
         />
       ))}
       {canModify && (

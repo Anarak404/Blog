@@ -34,3 +34,8 @@ export interface ILogin extends IAuthenticaionResponse {
   email: string;
   password: string;
 }
+
+export interface IPostRequest {
+  title: string;
+  content: string;
+}

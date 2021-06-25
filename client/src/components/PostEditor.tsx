@@ -7,10 +7,12 @@ import {
   TextField,
   Typography,
 } from '@material-ui/core';
-import React, { useRef } from 'react';
+import React, { useContext, useRef } from 'react';
 import { useCallback } from 'react';
 import { useState } from 'react';
-import { IPost } from '../types';
+import { mainContext, url } from '../MainContext';
+import { IPost, IPostRequest } from '../types';
+import { isNotEmptyString } from './Register';
 
 interface IProps {
   post?: IPost;
@@ -47,14 +49,55 @@ export default function PostEditor({ post }: IProps) {
   const inEditMode = post !== undefined;
 
   const [open, setOpen] = useState(true);
+  const { getHeaders } = useContext(mainContext);
 
   const handleClose = useCallback(() => {
     setOpen((s) => !s);
   }, []);
 
   const save = useCallback(() => {
-    console.log(contentRef.current?.value);
-  }, []);
+    const title = titleRef.current?.value;
+    const content = contentRef.current?.value;
+
+    if (!isNotEmptyString(title)) {
+      return;
+    }
+    if (!isNotEmptyString(content)) {
+      return;
+    }
+
+    const data: IPostRequest = {
+      title: title as string,
+      content: content as string,
+    };
+
+    const headers = getHeaders();
+
+    if (!inEditMode) {
+      fetch(`${url}/post/add`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(data),
+      })
+        .then(async (response) => {
+          if (response.ok) {
+            const responseData: IPost = await response.json();
+          }
+        })
+        .catch((e) => console.log('Error while creating post', e));
+    } else {
+      fetch(`${url}/post/update/${post?.id}`, {
+        method: 'PUT',
+        headers,
+        body: JSON.stringify(data),
+      }).then(async (response) => {
+        if (response.ok) {
+          const responseData: IPost = await response.json();
+        }
+      });
+    }
+    setOpen((s) => !s);
+  }, [setOpen, getHeaders, inEditMode, post]);
 
   return (
     <Modal open={open} className={classes.modal}>
