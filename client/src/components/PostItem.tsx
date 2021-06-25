@@ -78,9 +78,8 @@ export default function PostItem({ canModify, post, showPost }: IProps) {
     const headers = getHeaders();
 
     fetch(`${url}/post/delete/${post.id}`, { method: 'DELETE', headers }).then(
-      async (response) => {
+      (response) => {
         if (response.ok) {
-          const result: boolean = await response.json();
           refreshPosts();
         }
       }

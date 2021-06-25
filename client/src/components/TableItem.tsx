@@ -49,15 +49,7 @@ export default function TableItem({ user }: IProps) {
         method: 'PUT',
         headers,
         body: JSON.stringify(data),
-      })
-        .then(async (response) => {
-          if (response.ok) {
-            const responseData: IUser = await response.json();
-
-            return;
-          }
-        })
-        .catch(() => console.log('Error changing role'));
+      }).catch(() => console.log('Error changing role'));
     },
     [setRole, getHeaders, user]
   );
@@ -65,7 +57,7 @@ export default function TableItem({ user }: IProps) {
   return (
     <TableRow>
       <TableCell>{user.name}</TableCell>
-      <TableCell align='right'>
+      <TableCell align="right">
         <FormControl variant="outlined" className={classes.formControl}>
           <InputLabel>{role}</InputLabel>
           <Select value={role} onChange={handleChange} label={role}>
