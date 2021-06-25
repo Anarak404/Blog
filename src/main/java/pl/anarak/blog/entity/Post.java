@@ -32,7 +32,7 @@ public class Post {
     @NonNull
     String title;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "text")
     @NonNull
     String content;
 
