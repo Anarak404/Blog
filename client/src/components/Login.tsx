@@ -9,8 +9,9 @@ import {
   TextField,
   Typography,
 } from '@material-ui/core';
-import AccountCircle from '@material-ui/icons/AccountCircle';
+import MailIcon from '@material-ui/icons/Mail';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import LockIcon from '@material-ui/icons/Lock';
 import { useRef } from 'react';
 import { useCallback } from 'react';
 import { isNotEmptyString } from './Register';
@@ -117,11 +118,11 @@ export default function Login({ navigation }: IProps) {
         </Box>
         <FormControl fullWidth className={classes.formControl}>
           <div className={classes.inputContainer}>
-            <AccountCircle className={classes.icon} />
+            <MailIcon className={classes.icon} />
             <TextField label="Email" fullWidth inputRef={emailRef} />
           </div>
           <div className={classes.inputContainer}>
-            <AccountCircle className={classes.icon} />
+            <LockIcon className={classes.icon} />
             <TextField
               label="Password"
               type="password"

@@ -10,6 +10,8 @@ import {
 } from '@material-ui/core';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import LockIcon from '@material-ui/icons/Lock';
+import MailIcon from '@material-ui/icons/Mail';
 import React, { useCallback, useRef } from 'react';
 import { useContext } from 'react';
 import { useState } from 'react';
@@ -137,11 +139,11 @@ export default function Register({ navigation }: IProps) {
             <TextField label="Username" fullWidth inputRef={usernameRef} />
           </div>
           <div className={classes.inputContainer}>
-            <AccountCircle className={classes.icon} />
+            <MailIcon className={classes.icon} />
             <TextField label="Email" fullWidth inputRef={emailRef} />
           </div>
           <div className={classes.inputContainer}>
-            <AccountCircle className={classes.icon} />
+            <LockIcon className={classes.icon} />
             <TextField
               label="Password"
               type="password"
@@ -150,7 +152,7 @@ export default function Register({ navigation }: IProps) {
             />
           </div>
           <div className={classes.inputContainer}>
-            <AccountCircle className={classes.icon} />
+            <LockIcon className={classes.icon} />
             <TextField
               label="Repeat Password"
               type="password"
