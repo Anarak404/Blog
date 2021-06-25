@@ -7,8 +7,9 @@ import {
   TableCell,
   TableRow,
 } from '@material-ui/core';
-import React, { useCallback, useState } from 'react';
-import { IUser, Role } from '../types';
+import React, { useCallback, useContext, useState } from 'react';
+import { mainContext, url } from '../MainContext';
+import { IRoleRequest, IUser, Role } from '../types';
 
 interface IProps {
   user: IUser;
@@ -26,6 +27,7 @@ export default function TableItem({ user }: IProps) {
   const roles: Role[] = ['USER', 'MODERATOR'];
 
   const [role, setRole] = useState<Role>(user.role);
+  const { getHeaders } = useContext(mainContext);
 
   const handleChange = useCallback(
     (
@@ -36,8 +38,28 @@ export default function TableItem({ user }: IProps) {
     ) => {
       const role = e.target.value as Role;
       setRole(role);
+
+      const data: IRoleRequest = {
+        id: user.id,
+        role: role,
+      };
+
+      const headers = getHeaders();
+      fetch(`${url}/role`, {
+        method: 'PUT',
+        headers,
+        body: JSON.stringify(data),
+      })
+        .then(async (response) => {
+          if (response.ok) {
+            const responseData: IUser = await response.json();
+
+            return;
+          }
+        })
+        .catch(() => console.log('Error changing role'));
     },
-    [setRole]
+    [setRole, getHeaders, user]
   );
 
   return (

@@ -39,3 +39,8 @@ export interface IPostRequest {
   title: string;
   content: string;
 }
+
+export interface IRoleRequest {
+  id: number;
+  role: Role;
+}
