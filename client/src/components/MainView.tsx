@@ -47,6 +47,7 @@ export default function MainView() {
   const [route, setRoute] = useState<Route>('Posts');
 
   const canModify = ['ADMIN', 'MODERATOR'].includes(role);
+  const hasAccess = 'ADMIN';
 
   const showPost = useCallback(
     (id: number) => {
@@ -75,13 +76,15 @@ export default function MainView() {
           >
             Home
           </Typography>
-          <Typography
-            variant="h5"
-            className={classes.cursor}
-            onClick={showRoles}
-          >
-            Role
-          </Typography>
+          {hasAccess === role && (
+            <Typography
+              variant="h5"
+              className={classes.cursor}
+              onClick={showRoles}
+            >
+              Role
+            </Typography>
+          )}
           <div className={classes.spacer} />
           <IconButton>
             <ExitToAppIcon fontSize="large" />
