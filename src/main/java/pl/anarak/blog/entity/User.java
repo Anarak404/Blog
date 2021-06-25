@@ -5,11 +5,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -46,9 +48,11 @@ public class User {
     @JoinColumn(name = "role", nullable = false)
     Role role;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "creator")
     List<Post> createdPosts = new ArrayList<>();
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "lastModifier")
     List<Post> modifiedPosts = new ArrayList<>();
 }

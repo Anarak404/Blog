@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.Column;
@@ -32,6 +33,7 @@ public class Role {
     @NonNull
     pl.anarak.blog.model.Role name;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "role")
     List<User> users;
 }
