@@ -8,13 +8,10 @@ import {
   TableHead,
   TableRow,
 } from '@material-ui/core';
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { mainContext, url } from '../MainContext';
 import { IUser } from '../types';
 import TableItem from './TableItem';
-
-interface IProps {
-  users: IUser[];
-}
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -29,8 +26,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function TableRoles({ users }: IProps) {
+export default function TableRoles() {
   const classes = useStyles();
+  const { getHeaders } = useContext(mainContext);
+
+  const [users, setUsers] = useState<IUser[]>([]);
+
+  useEffect(() => {
+    const headers = getHeaders();
+    fetch(`${url}/user/admin`, { method: 'GET', headers })
+      .then(async (response) => {
+        if (response.ok) {
+          const data: IUser[] = await response.json();
+          console.log(data);
+          setUsers(data);
+        }
+      })
+      .catch((e) => console.log('Error in get post', e));
+  }, [getHeaders, setUsers]);
 
   return (
     <TableContainer component={Paper} elevation={4} className={classes.table}>

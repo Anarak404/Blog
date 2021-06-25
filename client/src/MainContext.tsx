@@ -10,6 +10,7 @@ interface IMainContext {
   role: Role;
   getHeaders(auth?: boolean): Headers;
   posts: IPost[];
+  refreshPosts(): void;
 }
 
 interface IMainContextProps {
@@ -22,6 +23,7 @@ const defaultValue: IMainContext = {
   role: 'USER',
   getHeaders: (auth?: boolean) => new Headers(),
   posts: [],
+  refreshPosts: () => {},
 };
 
 export const mainContext = createContext<IMainContext>(defaultValue);
@@ -63,6 +65,23 @@ export default function MainContextProvider({ children }: IMainContextProps) {
     [data]
   );
 
+  const refreshPosts = useCallback(() => {
+    const headers = getHeaders();
+    fetch(`${url}/post/all`, { method: 'GET', headers }).then(
+      async (response) => {
+        if (response.ok) {
+          const responseData: IPost[] = await response.json();
+          setData((s) => {
+            return {
+              ...s,
+              posts: responseData,
+            };
+          });
+        }
+      }
+    );
+  }, [setData, getHeaders]);
+
   return (
     <Provider
       value={{
@@ -71,6 +90,7 @@ export default function MainContextProvider({ children }: IMainContextProps) {
         role: data.user.role,
         getHeaders,
         posts: data.posts,
+        refreshPosts,
       }}
     >
       {children}

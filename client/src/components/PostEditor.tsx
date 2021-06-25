@@ -49,7 +49,7 @@ export default function PostEditor({ post }: IProps) {
   const inEditMode = post !== undefined;
 
   const [open, setOpen] = useState(true);
-  const { getHeaders } = useContext(mainContext);
+  const { getHeaders, refreshPosts } = useContext(mainContext);
 
   const handleClose = useCallback(() => {
     setOpen((s) => !s);
@@ -82,6 +82,7 @@ export default function PostEditor({ post }: IProps) {
         .then(async (response) => {
           if (response.ok) {
             const responseData: IPost = await response.json();
+            refreshPosts();
           }
         })
         .catch((e) => console.log('Error while creating post', e));
@@ -93,11 +94,12 @@ export default function PostEditor({ post }: IProps) {
       }).then(async (response) => {
         if (response.ok) {
           const responseData: IPost = await response.json();
+          refreshPosts();
         }
       });
     }
     setOpen((s) => !s);
-  }, [setOpen, getHeaders, inEditMode, post]);
+  }, [setOpen, getHeaders, inEditMode, post, refreshPosts]);
 
   return (
     <Modal open={open} className={classes.modal}>
