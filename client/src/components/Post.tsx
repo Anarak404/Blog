@@ -63,7 +63,6 @@ export default function Post({ id }: IProps) {
       .then(async (response) => {
         if (response.ok) {
           const data: IPost = await response.json();
-          console.log(data);
           setData(data);
         }
       })

@@ -15,7 +15,7 @@ import TableItem from './TableItem';
 
 const useStyles = makeStyles((theme) => ({
   table: {
-    maxWidth: '40vw',
+    minWidth: '40vw',
   },
   tableHead: {
     backgroundColor: theme.palette.primary.main,
@@ -34,7 +34,6 @@ export default function TableRoles() {
       .then(async (response) => {
         if (response.ok) {
           const data: IUser[] = await response.json();
-          console.log(data);
           setUsers(data);
         }
       })

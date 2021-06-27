@@ -79,12 +79,20 @@ export default function Register({ navigation }: IProps) {
       setMessage('Username can not be empty!');
       return;
     }
+    if (username!.length < 3) {
+      setMessage('Username must have at least 3 characters!');
+      return;
+    }
     if (!isNotEmptyString(email)) {
       setMessage('Mail can not be empty!');
       return;
     }
     if (!isNotEmptyString(password)) {
       setMessage('Password can not be empty!');
+      return;
+    }
+    if (password!.length < 8) {
+      setMessage('Password must have at least 8 characters!');
       return;
     }
     if (password !== repeatPassword) {
@@ -118,7 +126,7 @@ export default function Register({ navigation }: IProps) {
           });
           return;
         }
-        setMessage('User with email already exist!');
+        setMessage('Incorrect email - make sure you do not have an account and email is valid!');
       })
       .catch(() => setMessage('Error'));
   }, [setMessage, setLogin]);

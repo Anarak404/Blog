@@ -111,8 +111,8 @@ export default function PostItem({ canModify, post, showPost }: IProps) {
           <IconButton onClick={handleClick}>
             <EditIcon />
           </IconButton>
-          <IconButton>
-            <DeleteIcon onClick={handleDelete} />
+          <IconButton onClick={handleDelete}>
+            <DeleteIcon />
           </IconButton>
         </Box>
       )}

@@ -53,7 +53,6 @@ export default function MainContextProvider({ children }: IMainContextProps) {
 
   const getHeaders = useCallback(
     (auth: boolean = true) => {
-      console.log(auth);
       const headers = new Headers();
       headers.append('Content-Type', 'application/json');
       if (auth) {
